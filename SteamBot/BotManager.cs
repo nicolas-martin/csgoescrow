@@ -197,6 +197,11 @@ namespace SteamBot
             }
         }
 
+        public void StartRound()
+        {
+            
+        }
+
         /// <summary>
         /// Sends the BotManager command to the target Bot
         /// </summary>

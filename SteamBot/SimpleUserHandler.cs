@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SteamTrade;
 using SteamTrade.TradeWebAPI;
 using System;
+using System.Linq;
 
 namespace SteamBot
 {
@@ -36,12 +37,7 @@ namespace SteamBot
         
         public override void OnMessage (string message, EChatEntryType type) 
         {
-            SendChatMessage(Bot.ChatResponse);
-            
-            var other = OtherInventory.Items;
-
-            Console.WriteLine("aaaaaaa" + message);
-            Console.WriteLine("STEAMID = " + OtherSID);
+            //SendChatMessage(Bot.ChatResponse);
             
             
         }
@@ -50,9 +46,19 @@ namespace SteamBot
         {
             Console.Write(Trade.MyOfferedItems);
             Console.Write(Trade.OtherInventory);
-            IEnumerable<TradeUserAssets> items= Trade.OtherOfferedItems;
+            var items= Trade.OtherOfferedItems;
+
+            if (Bot.Round.IsCurrent)
+            {
+                Trade.AcceptTrade();
+
+            }
+            else
+            {
+                Trade.CancelTrade();
+            }
+
             
-            this.Trade.AcceptTrade();
             
             return true;
 
@@ -116,7 +122,12 @@ namespace SteamBot
                 //trades with a lot of items so we use a try-catch
                 try {
                     if (Trade.AcceptTrade())
+                    {
                         Log.Success("Trade Accepted!");
+                        Bot.Round.ItemsPerPlayer.Add(Trade.OtherSID, Trade.OtherOfferedItems.ToList());
+                    }
+
+
                 }
                 catch {
                     Log.Warn ("The trade might have failed, but we can't be sure.");

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using SteamKit2;
 using SteamTrade.TradeWebAPI;
 
@@ -9,15 +8,16 @@ namespace SteamBot.Lottery
     public class Round
     {
         public int Id { get; set; }
-        public List<SteamID> Players { get; set; }
         public Dictionary<SteamID, List<TradeUserAssets>> ItemsPerPlayer { get; set; }
-        public TimeSpan Timelimit { get; set; }
+        public int Timelimit { get; set; }
         public DateTime StartTime { get; set; }
         public int ItemLimit { get; set; }
         public int BetMinimum { get; set; }
         public SteamID Winner { get; set; }
         public TradeUserAssets House { get; set; }
         public List<TradeUserAssets> Pot { get; set; }
+
+        public bool IsCurrent { get; set; }
         protected float PotValue
         {
             get
@@ -26,9 +26,10 @@ namespace SteamBot.Lottery
             }
         }
 
-        public Round(List<SteamID> players, TimeSpan timelimit, int itemLimit, int betMinimum)
+        
+
+        public Round(int timelimit, int itemLimit, int betMinimum)
         {
-            Players = players;
             Timelimit = timelimit;
             ItemLimit = itemLimit;
             BetMinimum = betMinimum;
@@ -89,6 +90,8 @@ namespace SteamBot.Lottery
                     return player.Key;
                 }
             }
+
+            return null;
 
 
         }

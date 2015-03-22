@@ -14,6 +14,8 @@ using SteamTrade;
 using SteamKit2.Internal;
 using SteamTrade.TradeOffer;
 using System.Globalization;
+using System.Timers;
+using SteamBot.Lottery;
 
 namespace SteamBot
 {
@@ -25,6 +27,8 @@ namespace SteamBot
 
         #region Private readonly variables
         private readonly SteamUser.LogOnDetails logOnDetails;
+        public Round Round { get; set; }
+
         private readonly string schemaLang;
         private readonly string logFile;
         private readonly Dictionary<SteamID, UserHandler> userHandlers;
@@ -121,6 +125,24 @@ namespace SteamBot
                 CreateFriendsListIfNecessary();
                 return friends;
             }
+        }
+
+        public void StartRound()
+        {
+            Round = new Round(5, 10, 0);
+
+            var timer = new System.Timers.Timer();
+            timer.Interval = Round.Timelimit*60000;
+            timer.Elapsed += ElapsedEventHandler;
+
+        }
+
+        private void ElapsedEventHandler(object sender, ElapsedEventArgs e)
+        {
+            var winner = Round.GetWinner();
+            //TODO: Payout winner
+            StartRound();
+            Round.IsCurrent = false;
         }
 
         public Inventory MyInventory
@@ -241,6 +263,8 @@ namespace SteamBot
             Log.Info("Connecting...");
             if (!botThread.IsBusy)
                 botThread.RunWorkerAsync();
+
+            StartRound();
             SteamClient.Connect();
             Log.Success("Done Loading Bot!");
             return true; // never get here
