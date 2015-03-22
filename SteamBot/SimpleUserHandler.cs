@@ -50,11 +50,12 @@ namespace SteamBot
         {
             Console.Write(Trade.MyOfferedItems);
             Console.Write(Trade.OtherInventory);
-            Console.Write(Trade.OtherOfferedItems);
+            IEnumerable<TradeUserAssets> items= Trade.OtherOfferedItems;
             
             this.Trade.AcceptTrade();
             
             return true;
+
         }
         
         public override void OnTradeError (string error) 
