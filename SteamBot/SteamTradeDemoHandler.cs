@@ -92,6 +92,7 @@ namespace SteamBot
             // -----------------------------------------------------------------------------------
         }
         
+        //TODO: More harded bullshit
         public override void OnTradeAddItem (Schema.Item schemaItem, Inventory.Item inventoryItem) {
             // USELESS DEBUG MESSAGES -------------------------------------------------------------------------------
             SendTradeMessage("Object AppID: {0}", inventoryItem.AppId);

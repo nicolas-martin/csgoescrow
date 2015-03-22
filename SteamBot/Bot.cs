@@ -1,21 +1,21 @@
 using System;
-using System.Threading.Tasks;
-using System.Web;
-using System.Net;
-using System.Text;
-using System.IO;
-using System.Threading;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using System.ComponentModel;
+using System.IO;
+using System.Net;
+using System.Security.Cryptography;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Timers;
+using System.Windows.Forms;
+using SteamBot.Lottery;
 using SteamBot.SteamGroups;
 using SteamKit2;
-using SteamTrade;
 using SteamKit2.Internal;
+using SteamTrade;
+using SteamTrade.Exceptions;
 using SteamTrade.TradeOffer;
-using System.Globalization;
-using System.Timers;
-using SteamBot.Lottery;
+using Timer = System.Timers.Timer;
 
 namespace SteamBot
 {
@@ -131,7 +131,7 @@ namespace SteamBot
         {
             Round = new Round(5, 10, 0);
 
-            var timer = new System.Timers.Timer();
+            var timer = new Timer();
             timer.Interval = Round.Timelimit*60000;
             timer.Elapsed += ElapsedEventHandler;
 
@@ -143,6 +143,11 @@ namespace SteamBot
             //TODO: Payout winner
             StartRound();
             Round.IsCurrent = false;
+
+            this.tradeManager.InitializeTrade(SteamClient.SteamID, winner);
+            var trade = tradeManager.CreateTrade(SteamClient.SteamID, winner);
+            trade.AddItem(Round.Pot);
+
         }
 
         public Inventory MyInventory
@@ -400,7 +405,7 @@ namespace SteamBot
 
         public void SetGamePlaying(int id)
         {
-            var gamePlaying = new SteamKit2.ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayed);
+            var gamePlaying = new ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayed);
             if (id != 0)
                 gamePlaying.Body.games_played.Add(new CMsgClientGamesPlayed.GamePlayed
                 {
@@ -677,7 +682,7 @@ namespace SteamBot
             #endregion
 
             #region Notifications
-            msg.Handle<SteamBot.SteamNotifications.NotificationCallback>(callback =>
+            msg.Handle<SteamNotifications.NotificationCallback>(callback =>
             {
                 //currently only appears to be of trade offer
                 if (callback.Notifications.Count != 0)
@@ -693,7 +698,7 @@ namespace SteamBot
                     tradeOfferManager.GetOffers();
             });
 
-            msg.Handle<SteamBot.SteamNotifications.CommentNotificationCallback>(callback =>
+            msg.Handle<SteamNotifications.CommentNotificationCallback>(callback =>
             {
                 //various types of comment notifications on profile/activity feed etc
                 //Log.Info("received CommentNotificationCallback");
@@ -708,8 +713,8 @@ namespace SteamBot
         {
             // get sentry file which has the machine hw info saved 
             // from when a steam guard code was entered
-            Directory.CreateDirectory(System.IO.Path.Combine(System.Windows.Forms.Application.StartupPath, "sentryfiles"));
-            FileInfo fi = new FileInfo(System.IO.Path.Combine("sentryfiles",String.Format("{0}.sentryfile", logOnDetails.Username)));
+            Directory.CreateDirectory(Path.Combine(Application.StartupPath, "sentryfiles"));
+            FileInfo fi = new FileInfo(Path.Combine("sentryfiles",String.Format("{0}.sentryfile", logOnDetails.Username)));
 
             if (fi.Exists && fi.Length > 0)
                 logOnDetails.SentryFileHash = SHAHash(File.ReadAllBytes(fi.FullName));
@@ -803,9 +808,9 @@ namespace SteamBot
         {
             byte[] hash = SHAHash (machineAuth.Data);
 
-            Directory.CreateDirectory(System.IO.Path.Combine(System.Windows.Forms.Application.StartupPath, "sentryfiles"));
+            Directory.CreateDirectory(Path.Combine(Application.StartupPath, "sentryfiles"));
 
-            File.WriteAllBytes (System.IO.Path.Combine("sentryfiles", String.Format("{0}.sentryfile", logOnDetails.Username)), machineAuth.Data);
+            File.WriteAllBytes (Path.Combine("sentryfiles", String.Format("{0}.sentryfile", logOnDetails.Username)), machineAuth.Data);
             
             var authResponse = new SteamUser.MachineAuthDetails
             {
@@ -951,7 +956,7 @@ namespace SteamBot
                 catch (WebException e)
                 {
                     Log.Error("URI: {0} >> {1}", (e.Response != null && e.Response.ResponseUri != null ? e.Response.ResponseUri.ToString() : "unknown"), e.ToString());
-                    System.Threading.Thread.Sleep(45000);//Steam is down, retry in 45 seconds.
+                    Thread.Sleep(45000);//Steam is down, retry in 45 seconds.
                 }
                 catch (Exception e)
                 {

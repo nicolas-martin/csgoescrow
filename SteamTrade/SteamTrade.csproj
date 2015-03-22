@@ -55,6 +55,8 @@
     <Compile Include="Exceptions\TradeException.cs" />
     <Compile Include="ForeignInventory.cs" />
     <Compile Include="GenericInventory.cs" />
+    <Compile Include="Lottery\GameAppId.cs" />
+    <Compile Include="Lottery\Round.cs" />
     <Compile Include="TF2Value.cs" />
     <Compile Include="Trade.cs" />
     <Compile Include="Schema.cs" />

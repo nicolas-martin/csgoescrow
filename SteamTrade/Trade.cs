@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Threading;
 using System.Threading.Tasks;
+using SteamBot.Lottery;
 using SteamKit2;
 using SteamTrade.Exceptions;
 using SteamTrade.TradeWebAPI;
@@ -324,7 +325,8 @@ namespace SteamTrade
             }
             else
             {
-                return AddItem(new TradeUserAssets(440, 2, itemid));
+                //TODO: Remove harded 440 set to TF2
+                return AddItem(new TradeUserAssets(GameAppId.Csgo, 2, itemid));
             }
         }
 
@@ -342,6 +344,12 @@ namespace SteamTrade
                 myOfferedItemsLocalCopy[slot] = item;
 
             return success;
+        }
+
+        //TODO: Test a little
+        public bool AddItem(IEnumerable<TradeUserAssets> items)
+        {
+            return items.Select(AddItem).FirstOrDefault();
         }
 
         /// <summary>
