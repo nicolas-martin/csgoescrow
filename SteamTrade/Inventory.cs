@@ -9,6 +9,10 @@ namespace SteamTrade
 {
     public class Inventory
     {
+        public Inventory()
+        {
+        }
+
         /// <summary>
         /// Fetches the inventory for the given Steam ID using the Steam API.
         /// </summary>

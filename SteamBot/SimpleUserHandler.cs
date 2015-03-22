@@ -4,6 +4,7 @@ using SteamTrade;
 using SteamTrade.TradeWebAPI;
 using System;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace SteamBot
 {
@@ -35,11 +36,16 @@ namespace SteamBot
 
         public override void OnFriendRemove () {}
         
-        public override void OnMessage (string message, EChatEntryType type) 
+        public override void OnMessage (string message, EChatEntryType type)
         {
+            //var inventory = OtherInventory;
+            //var jsonIventory = JsonConvert.SerializeObject(inventory);
+            //var inventory2 = JsonConvert.DeserializeObject<Inventory>(jsonIventory);
+            //Log.Info(jsonIventory);
+            //Console.WriteLine("test");
             //SendChatMessage(Bot.ChatResponse);
-            
-            
+
+
         }
 
         public override bool OnTradeRequest()
