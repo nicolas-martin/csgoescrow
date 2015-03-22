@@ -93,7 +93,7 @@ namespace SteamBot
         /// </summary>
         /// <value>
         /// The API key you have been assigned by Valve. If you do not have 
-        /// one, it can be requested from Value at their Web API Key page. This
+        /// one, it can be requested from PotValue at their Web API Key page. This
         /// is required and the bot(s) will not work without an API Key. 
         /// </value>
         public string ApiKey { get; set; }

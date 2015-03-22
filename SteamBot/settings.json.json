@@ -1,14 +1,14 @@
 {
-"Admins":["76561198219298164"],
-"ApiKey":"187B211E615D177A2050EAAC538EA549",
+"Admins":["234567"],
+"ApiKey":"Steam API Key goes here!",
 "mainLog": "syslog.log",
 "UseSeparateProcesses": "false",
 "AutoStartAllBots": "true",
 "Bots": [
         {
-            "Username":"ezelbot1",
-            "Password":"steamwhistle",
-            "ApiKey":"187B211E615D177A2050EAAC538EA549",
+            "Username":"BOT USERNAME",
+            "Password":"BOT PASSWORD",
+            "ApiKey":"Bot specific apiKey",
             "DisplayName":"TestBot",
             "ChatResponse":"Hi there bro",
             "logFile": "TestBot.log",

@@ -2,6 +2,7 @@ using SteamKit2;
 using System.Collections.Generic;
 using SteamTrade;
 using SteamTrade.TradeWebAPI;
+using System;
 
 namespace SteamBot
 {
@@ -36,10 +37,23 @@ namespace SteamBot
         public override void OnMessage (string message, EChatEntryType type) 
         {
             SendChatMessage(Bot.ChatResponse);
+            
+            var other = OtherInventory.Items;
+
+            Console.WriteLine("aaaaaaa" + message);
+            Console.WriteLine("STEAMID = " + OtherSID);
+            
+            
         }
 
-        public override bool OnTradeRequest() 
+        public override bool OnTradeRequest()
         {
+            Console.Write(Trade.MyOfferedItems);
+            Console.Write(Trade.OtherInventory);
+            Console.Write(Trade.OtherOfferedItems);
+            
+            this.Trade.AcceptTrade();
+            
             return true;
         }
         
