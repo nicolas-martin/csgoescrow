@@ -50,11 +50,9 @@ namespace SteamBot
 
         public override bool OnTradeRequest()
         {
-            Console.Write(Trade.MyOfferedItems);
-            Console.Write(Trade.OtherInventory);
-            var items= Trade.OtherOfferedItems;
-
-            if (Bot.Round.IsCurrent)
+            
+			//Prevent players from requesting items from the bot.
+			if (Bot.Round.IsCurrent && Trade.MyOfferedItems.ToList().Count <= 0)
             {
                 Trade.AcceptTrade();
 
@@ -63,8 +61,7 @@ namespace SteamBot
             {
                 Trade.CancelTrade();
             }
-
-            
+			           
             
             return true;
 
@@ -111,6 +108,7 @@ namespace SteamBot
 
         public override void OnTradeSuccess()
         {
+
             Log.Success("Trade Complete.");
         }
 
@@ -118,6 +116,16 @@ namespace SteamBot
         {
             Log.Warn("Trade ended awaiting email confirmation");
             SendChatMessage("Please complete the email confirmation to finish the trade");
+
+			Bot.Round.ItemsPerPlayer.Add(Trade.OtherSID, Trade.OtherOfferedItems.ToList());
+
+			//TODO: We have reached the max amount of items.. Do something.
+			if (Bot.Round.ItemLimit >= Bot.Round.ItemsInRound) {
+				Bot.Round.IsCurrent = false;
+
+			}
+
+		
         }
 
         public override void OnTradeAccept() 
@@ -130,7 +138,7 @@ namespace SteamBot
                     if (Trade.AcceptTrade())
                     {
                         Log.Success("Trade Accepted!");
-                        Bot.Round.ItemsPerPlayer.Add(Trade.OtherSID, Trade.OtherOfferedItems.ToList());
+                        
                     }
 
 

@@ -18,6 +18,18 @@ namespace SteamBot.Lottery
         public List<TradeUserAssets> Pot { get; set; }
 
         public bool IsCurrent { get; set; }
+
+		public int ItemsInRound {
+			get {
+				var itemsInRound = 0;
+				foreach (var player in ItemsPerPlayer) {
+					itemsInRound += player.Value.Count;
+
+				}
+				return itemsInRound;
+			}
+		}
+
         protected float PotValue
         {
             get
