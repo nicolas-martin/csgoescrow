@@ -1,16 +1,13 @@
-using SteamKit2;
-using System.Collections.Generic;
-using SteamTrade;
-using SteamTrade.TradeWebAPI;
-using System;
 using System.Linq;
-using Newtonsoft.Json;
+using SteamKit2;
+using SteamTrade;
 
 namespace SteamBot
 {
     public class SimpleUserHandler : UserHandler
     {
         public TF2Value AmountAdded;
+        
 
         public SimpleUserHandler (Bot bot, SteamID sid) : base(bot, sid) {}
 
@@ -45,7 +42,20 @@ namespace SteamBot
             //Console.WriteLine("test");
             //SendChatMessage(Bot.ChatResponse);
 
+            //var trade = new CreateTra(7704618, 2838957, this.SteamWeb);
 
+            //John 2838957
+            //me 7704618
+            
+            //Bot.tradeManager.InitializeTrade(7704618, 2838957);
+            //var trade = Bot.tradeManager.CreateTrade(7704618, 2838957);
+            ////"contextid":2,"assetid":165463158,"appid":730,"amount":1
+            //trade.AddItem(new GenericInventory.Item(730, 2, 165463158, "wtf"));
+            //trade.AcceptTrade();
+            var tradeOffer = Bot.NewTradeOffer(76561197963104685);
+            //tradeOffer.Items.AddMyItem(730, 2, 165463158);
+            string offerId;
+            tradeOffer.Send(out offerId, "THIS IS GOING TO WORK DUDE");
         }
 
         public override bool OnTradeRequest()

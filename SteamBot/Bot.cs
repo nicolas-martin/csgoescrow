@@ -268,6 +268,8 @@ namespace SteamBot
             Log.Info("Connecting...");
             if (!botThread.IsBusy)
                 botThread.RunWorkerAsync();
+            
+            
 
             StartRound();
             SteamClient.Connect();
