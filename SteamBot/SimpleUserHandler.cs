@@ -52,18 +52,20 @@ namespace SteamBot
         {
             
 			//Prevent players from requesting items from the bot.
-			if (Bot.Round.IsCurrent && Trade.MyOfferedItems.ToList().Count <= 0)
+            if (Bot.Round.IsCurrent)
             {
-                Trade.AcceptTrade();
+                //Trade.AcceptTrade();
+                return true;
 
             }
             else
             {
-                Trade.CancelTrade();
+                //Trade.CancelTrade();
+                return false;
             }
 			           
             
-            return true;
+            //return true;
 
         }
         
@@ -101,8 +103,12 @@ namespace SteamBot
                 if(Validate ())
                 {
                     Trade.SetReady (true);
+                    //if(Trade.MyOfferedItems = 0)
+                    //Trade.OtherO
+                    Trade.AcceptTrade();
+
                 }
-                SendTradeMessage("Scrap: {0}", AmountAdded.ScrapTotal);
+                //SendTradeMessage("Scrap: {0}", AmountAdded.ScrapTotal);
             }
         }
 
@@ -138,6 +144,10 @@ namespace SteamBot
                     if (Trade.AcceptTrade())
                     {
                         Log.Success("Trade Accepted!");
+                        //TODO: To move out on OnTradeSuccess
+                        Bot.Round.ItemsPerPlayer.Add(Trade.OtherSID, Trade.OtherOfferedItems.ToList());
+                        //var jsonIventory = JsonConvert.SerializeObject(Trade.OtherOfferedItems);
+                        //var inventory2 = JsonConvert.DeserializeObject<IEnumerable<TradeUserAssets>>(jsonIventory);
                         
                     }
 
@@ -150,41 +160,42 @@ namespace SteamBot
         }
 
         public bool Validate ()
-        {            
-            AmountAdded = TF2Value.Zero;
-            
-            List<string> errors = new List<string> ();
-            
-            foreach (TradeUserAssets asset in Trade.OtherOfferedItems)
-            {
-                var item = Trade.OtherInventory.GetItem(asset.assetid);
-                if (item.Defindex == 5000)
-                    AmountAdded += TF2Value.Scrap;
-                else if (item.Defindex == 5001)
-                    AmountAdded += TF2Value.Reclaimed;
-                else if (item.Defindex == 5002)
-                    AmountAdded += TF2Value.Refined;
-                else
-                {
-                    var schemaItem = Trade.CurrentSchema.GetItem (item.Defindex);
-                    errors.Add ("Item " + schemaItem.Name + " is not a metal.");
-                }
-            }
-            
-            if (AmountAdded == TF2Value.Zero)
-            {
-                errors.Add ("You must put up at least 1 scrap.");
-            }
-            
-            // send the errors
-            if (errors.Count != 0)
-                SendTradeMessage("There were errors in your trade: ");
-            foreach (string error in errors)
-            {
-                SendTradeMessage(error);
-            }
-            
-            return errors.Count == 0;
+        {
+            return true;
+            //AmountAdded = TF2Value.Zero;
+
+            //List<string> errors = new List<string> ();
+
+            //foreach (TradeUserAssets asset in Trade.OtherOfferedItems)
+            //{
+            //    var item = Trade.OtherInventory.GetItem(asset.assetid);
+            //    if (item.Defindex == 5000)
+            //        AmountAdded += TF2Value.Scrap;
+            //    else if (item.Defindex == 5001)
+            //        AmountAdded += TF2Value.Reclaimed;
+            //    else if (item.Defindex == 5002)
+            //        AmountAdded += TF2Value.Refined;
+            //    else
+            //    {
+            //        var schemaItem = Trade.CurrentSchema.GetItem (item.Defindex);
+            //        errors.Add ("Item " + schemaItem.Name + " is not a metal.");
+            //    }
+            //}
+
+            //if (AmountAdded == TF2Value.Zero)
+            //{
+            //    errors.Add ("You must put up at least 1 scrap.");
+            //}
+
+            //// send the errors
+            //if (errors.Count != 0)
+            //    SendTradeMessage("There were errors in your trade: ");
+            //foreach (string error in errors)
+            //{
+            //    SendTradeMessage(error);
+            //}
+
+            //return errors.Count == 0;
         }
         
     }

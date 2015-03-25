@@ -1,6 +1,8 @@
 using SteamKit2;
 using System.Collections.Generic;
+using SteamBot.Lottery;
 using SteamTrade;
+using SteamTrade.Lottery;
 
 namespace SteamBot
 {
@@ -113,6 +115,11 @@ namespace SteamBot
                     SendTradeMessage("Steam Inventory Item Added.");
                     SendTradeMessage("Type: {0}", tmpDescription.type);
                     SendTradeMessage("Marketable: {0}", (tmpDescription.marketable ? "Yes" : "No"));
+                    break;
+                case 730:
+                    GenericInventory.ItemDescription tmpDescription2 = OtherSteamInventory.getDescription(inventoryItem.Id);
+                    SendTradeMessage("CSGO Item Added.");
+                    SendTradeMessage("Name: {0}", tmpDescription2.name);
                     break;
 
                 default:

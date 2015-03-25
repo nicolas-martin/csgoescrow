@@ -45,6 +45,10 @@ namespace SteamBot.Lottery
             Timelimit = timelimit;
             ItemLimit = itemLimit;
             BetMinimum = betMinimum;
+            IsCurrent = true;
+            ItemsPerPlayer = new Dictionary<SteamID, List<TradeUserAssets>>();
+            Pot = new List<TradeUserAssets>();
+            StartRound();
 
         }
 

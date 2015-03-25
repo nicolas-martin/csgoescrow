@@ -132,7 +132,7 @@ namespace SteamBot
             Round = new Round(5, 10, 0);
 
             var timer = new Timer();
-            timer.Interval = Round.Timelimit*60000;
+            timer.Interval = Round.Timelimit * 60000;
             timer.Elapsed += ElapsedEventHandler;
 
         }
@@ -140,13 +140,13 @@ namespace SteamBot
         private void ElapsedEventHandler(object sender, ElapsedEventArgs e)
         {
             var winner = Round.GetWinner();
-            //TODO: Payout winner
-            StartRound();
-            Round.IsCurrent = false;
+            ////TODO: Payout winner
+            //StartRound();
+            //Round.IsCurrent = false;
 
-            this.tradeManager.InitializeTrade(SteamClient.SteamID, winner);
-            var trade = tradeManager.CreateTrade(SteamClient.SteamID, winner);
-            trade.AddItem(Round.Pot);
+            //this.tradeManager.InitializeTrade(SteamClient.SteamID, winner);
+            //var trade = tradeManager.CreateTrade(SteamClient.SteamID, winner);
+            //trade.AddItem(Round.Pot);
 
         }
 

@@ -1,9 +1,11 @@
-﻿namespace SteamBot.Lottery
+﻿namespace SteamTrade.Lottery
 {
-    public static class GameAppId
+    public enum GameAppId
     {
-        public static int Csgo = 730;
-        public static int Tf2 = 440;
-        public static int Dota2 = 570;
+        Csgo = 730,
+        Tf2 = 440,
+        Dota2 = 570,
+        Steam = 753
+ 
     }
 }

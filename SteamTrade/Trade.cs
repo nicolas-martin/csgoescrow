@@ -326,7 +326,7 @@ namespace SteamTrade
             else
             {
                 //TODO: Remove harded 440 set to TF2
-                return AddItem(new TradeUserAssets(GameAppId.Csgo, 2, itemid));
+                return AddItem(new TradeUserAssets(440, 2, itemid));
             }
         }
 
