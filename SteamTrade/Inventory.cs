@@ -26,7 +26,7 @@ namespace SteamTrade
             int attempts = 1;
             InventoryResponse result = null;
             //TODO: More harded bullshit
-            var url = "http://api.steampowered.com/IEconItems_" + (int)GameAppId.Csgo + "/GetPlayerItems/v0001/?key=" + apiKey + "&steamid=" + steamId;
+            //HACK: Did this fuck things up?
             while ((result == null || result.result.items == null) && attempts <= 3)
             {
                 var url = "http://api.steampowered.com/IEconItems_440/GetPlayerItems/v0001/?key=" + apiKey + "&steamid=" + steamId;
