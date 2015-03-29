@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using SteamKit2;
 using SteamTrade;
@@ -42,16 +43,41 @@ namespace SteamBot
             //Log.Info(jsonIventory);
             //Console.WriteLine("test");
             //SendChatMessage(Bot.ChatResponse);
+            /**                         **/
+            //var rand = new Random();
+            //Bot.GetInventory();
+            //var inventory = Bot.MyInventory.Items;
+            //var randomItem = inventory[rand.Next(inventory.Length)];
+            //var tradeOffer = Bot.NewTradeOffer(OtherSID);
+            //tradeOffer.Items.AddMyItem(randomItem.AppId, randomItem.ContextId, (long) randomItem.Id);
+
+            //string tradeId;
+            //tradeOffer.Send(out tradeId);
 
             var rand = new Random();
-            Bot.GetInventory();
-            var inventory = Bot.MyInventory.Items;
-            var randomItem = inventory[rand.Next(inventory.Length)];
-            var tradeOffer = Bot.NewTradeOffer(OtherSID);
-            tradeOffer.Items.AddMyItem(randomItem.AppId, randomItem.ContextId, (long) randomItem.Id);
 
-            string tradeId;
-            tradeOffer.Send(out tradeId);
+            List<long> contextId = new List<long>();
+            //contextId.Add(6);
+            contextId.Add(2);
+
+
+            var genericInv = new GenericInventory(Bot.SteamWeb);
+            genericInv.load(730, contextId, OtherSID);
+
+            var inventory = genericInv.items;
+            foreach (var item in genericInv.items)
+            {
+                Bot.log.Info(genericInv.getDescription(item.Key).name);
+                
+            }
+
+            //var randomItem = inventory[rand.Next(inventory.Length)];
+            //var tradeOffer = Bot.NewTradeOffer(OtherSID);
+            //tradeOffer.Items.AddMyItem(randomItem.AppId, randomItem.ContextId, (long)randomItem.Id);
+
+            //string tradeId;
+            //tradeOffer.Send(out tradeId);
+
         }
 
         public override bool OnTradeRequest()

@@ -23,10 +23,8 @@ namespace SteamTrade
         /// <param name="steamWeb">The SteamWeb instance for this Bot</param>
         public static Inventory FetchInventory(ulong steamId, string apiKey, SteamWeb steamWeb)
         {
-            int attempts = 1;
+            //HACK: Breaks if not IEconItems_440
             InventoryResponse result = null;
-            //TODO: More harded bullshit
-            //HACK: Did this fuck things up?
             while ((result == null || result.result.items == null) && attempts <= 3)
             {
                 var url = "http://api.steampowered.com/IEconItems_440/GetPlayerItems/v0001/?key=" + apiKey + "&steamid=" + steamId;
