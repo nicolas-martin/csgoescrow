@@ -15,6 +15,7 @@ using SteamTrade;
 using SteamTrade.Exceptions;
 using SteamTrade.Inventories;
 using SteamTrade.Lottery;
+using SteamTrade.Model.csgo;
 using SteamTrade.TradeOffer;
 using Timer = System.Timers.Timer;
 
@@ -27,7 +28,7 @@ namespace SteamBot
         #endregion
 
         #region Private readonly variables
-        public Round<CsgoInventory.Item> Round { get; set; }
+        public Round<Item> Round { get; set; }
         private readonly SteamUser.LogOnDetails logOnDetails;
 
         private readonly string schemaLang;
@@ -130,14 +131,7 @@ namespace SteamBot
 
         public void StartRound()
         {
-            Round = new Round<CsgoInventory.Item>(5, 10, 0);
-
-            foreach (var item in Round.Pot)
-            {
-                
-                
-
-            }
+            Round = new Round<Item>(5, 10, 0, SteamWeb);
 
             var timer = new Timer();
             timer.Interval = Round.Timelimit * 60000;
@@ -149,6 +143,12 @@ namespace SteamBot
 
         private void ElapsedEventHandler(object sender, ElapsedEventArgs e)
         {
+            foreach (var items in Round.Pot)
+            {
+                
+            }
+
+
             var winner = Round.GetWinner();
             ////TODO: Payout winner
             //StartRound();

@@ -58,6 +58,9 @@
     <Compile Include="Inventories\CsgoInventory.cs" />
     <Compile Include="Lottery\GameAppId.cs" />
     <Compile Include="Lottery\Round.cs" />
+    <Compile Include="Model\csgo\Item.cs" />
+    <Compile Include="Model\csgo\ItemPrice.cs" />
+    <Compile Include="Model\ITradable.cs" />
     <Compile Include="TF2Value.cs" />
     <Compile Include="Trade.cs" />
     <Compile Include="Schema.cs" />

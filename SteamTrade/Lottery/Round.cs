@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using SteamKit2;
+using SteamTrade.Model;
+using SteamTrade.Model.csgo;
 
 namespace SteamTrade.Lottery
 {
-    public class Round<T>
+    public class Round<T> where T : ITradable
     {
         public int Id { get; set; }
         public Dictionary<SteamID, List<T>> ItemsPerPlayer { get; set; }
@@ -12,6 +15,7 @@ namespace SteamTrade.Lottery
         public DateTime StartTime { get; set; }
         public int ItemLimit { get; set; }
         public int BetMinimum { get; set; }
+        public SteamWeb SteamWeb { get; set; }
         public SteamID Winner { get; set; }
         public T House { get; set; }
         public List<T> Pot { get; set; }
@@ -37,11 +41,12 @@ namespace SteamTrade.Lottery
             }
         }
 
-        public Round(int timelimit, int itemLimit, int betMinimum)
+        public Round(int timelimit, int itemLimit, int betMinimum, SteamWeb steamWeb)
         {
             Timelimit = timelimit;
             ItemLimit = itemLimit;
             BetMinimum = betMinimum;
+            SteamWeb = steamWeb;
             IsCurrent = true;
             ItemsPerPlayer = new Dictionary<SteamID, List<T>>();
             Pot = new List<T>();
@@ -65,15 +70,21 @@ namespace SteamTrade.Lottery
 
         public float GetItemsValue(List<T> items)
         {
-            var total = 0;
+            var total = 0.0;
             foreach (var item in items)
             {
                 //TODO: Get item value
-                
-                
+                var response = SteamWeb.Fetch(
+                    string.Format(
+                        "http://steamcommunity.com/market/priceoverview/?country=US&currency=3&appid={0}&market_hash_name={1}",
+                        730, item.MarketHashName),"get");
+
+                //TODO: Not generic at all.. must find a better way
+                var obj = JsonConvert.DeserializeObject<ItemPrice>(response);
+                total += obj.MedianPrice;
             }
 
-            return total;
+            return (float) total;
         }
 
         public SteamID GetWinner()
