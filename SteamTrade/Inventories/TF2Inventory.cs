@@ -2,15 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using SteamBot.Lottery;
 using SteamKit2;
-using SteamTrade.Lottery;
 
-namespace SteamTrade
+namespace SteamTrade.Inventories
 {
-    public class Inventory
+    public class Tf2Inventory
     {
-        public Inventory()
+        public Tf2Inventory()
         {
         }
 
@@ -32,7 +30,6 @@ namespace SteamTrade
                 result = JsonConvert.DeserializeObject<InventoryResponse>(response);
                 attempts++;
             }
-            return new Inventory(result.result);
         }
 
         /// <summary>
@@ -64,7 +61,7 @@ namespace SteamTrade
         public bool IsPrivate { get; private set; }
         public bool IsGood { get; private set; }
 
-        protected Inventory (InventoryResult apiInventory)
+        protected Tf2Inventory (InventoryResult apiInventory)
         {
             NumSlots = apiInventory.num_backpack_slots;
             Items = apiInventory.items;
@@ -83,18 +80,18 @@ namespace SteamTrade
 
         public Item GetItem (ulong id)
         {
-            // Check for Private Inventory
+            // Check for Private TF2Inventory
             if( this.IsPrivate )
-                throw new Exceptions.TradeException("Unable to access Inventory: Inventory is Private!");
+                throw new Exceptions.TradeException("Unable to access TF2Inventory: TF2Inventory is Private!");
 
             return (Items == null ? null : Items.FirstOrDefault(item => item.Id == id));
         }
 
         public List<Item> GetItemsByDefindex (int defindex)
         {
-            // Check for Private Inventory
+            // Check for Private TF2Inventory
             if( this.IsPrivate )
-                throw new Exceptions.TradeException("Unable to access Inventory: Inventory is Private!");
+                throw new Exceptions.TradeException("Unable to access TF2Inventory: TF2Inventory is Private!");
 
             return Items.Where(item => item.Defindex == defindex).ToList();
         }

@@ -68,8 +68,8 @@ namespace SteamTrade
 
         private readonly Dictionary<int, TradeUserAssets> myOfferedItemsLocalCopy;
         private readonly TradeSession session;
-        private readonly Task<Inventory> myInventoryTask;
-        private readonly Task<Inventory> otherInventoryTask;
+        private readonly Task<Inventories.Tf2Inventory> myInventoryTask;
+        private readonly Task<Inventories.Tf2Inventory> otherInventoryTask;
         private List<TradeUserAssets> myOfferedItems;
         private List<TradeUserAssets> otherOfferedItems;
         private bool otherUserTimingOut;
@@ -77,7 +77,7 @@ namespace SteamTrade
         private int numUnknownStatusUpdates;
         private long tradeOfferID; //Used for email confirmation
 
-        internal Trade(SteamID me, SteamID other, SteamWeb steamWeb, Task<Inventory> myInventoryTask, Task<Inventory> otherInventoryTask)
+        internal Trade(SteamID me, SteamID other, SteamWeb steamWeb, Task<Inventories.Tf2Inventory> myInventoryTask, Task<Inventories.Tf2Inventory> otherInventoryTask)
         {
             TradeStarted = false;
             OtherIsReady = false;
@@ -113,7 +113,7 @@ namespace SteamTrade
         /// <summary> 
         /// Gets the inventory of the other user. 
         /// </summary>
-        public Inventory OtherInventory
+        public Inventories.Tf2Inventory OtherInventory
         {
             get
             {
@@ -133,7 +133,7 @@ namespace SteamTrade
         /// <summary> 
         /// Gets the inventory of the bot.
         /// </summary>
-        public Inventory MyInventory
+        public Inventories.Tf2Inventory MyInventory
         {
             get
             {
@@ -230,9 +230,9 @@ namespace SteamTrade
 
         public delegate void SuccessfulInit();
 
-        public delegate void UserAddItemHandler(Schema.Item schemaItem, Inventory.Item inventoryItem);
+        public delegate void UserAddItemHandler(Schema.Item schemaItem, Inventories.Tf2Inventory.Item inventoryItem);
 
-        public delegate void UserRemoveItemHandler(Schema.Item schemaItem, Inventory.Item inventoryItem);
+        public delegate void UserRemoveItemHandler(Schema.Item schemaItem, Inventories.Tf2Inventory.Item inventoryItem);
 
         public delegate void MessageHandler(string msg);
 
@@ -361,8 +361,8 @@ namespace SteamTrade
         /// </returns>
         public bool AddItemByDefindex(int defindex)
         {
-            List<Inventory.Item> items = MyInventory.GetItemsByDefindex(defindex);
-            foreach(Inventory.Item item in items)
+            List<Inventories.Tf2Inventory.Item> items = MyInventory.GetItemsByDefindex(defindex);
+            foreach(Inventories.Tf2Inventory.Item item in items)
             {
                 if(item != null && myOfferedItemsLocalCopy.Values.All(o => o.assetid != item.Id) && !item.IsNotTradeable)
                 {
@@ -381,11 +381,11 @@ namespace SteamTrade
         /// <returns>Number of items added.</returns>
         public uint AddAllItemsByDefindex(int defindex, uint numToAdd = 0)
         {
-            List<Inventory.Item> items = MyInventory.GetItemsByDefindex(defindex);
+            List<Inventories.Tf2Inventory.Item> items = MyInventory.GetItemsByDefindex(defindex);
 
             uint added = 0;
 
-            foreach(Inventory.Item item in items)
+            foreach(Inventories.Tf2Inventory.Item item in items)
             {
                 if(item != null && myOfferedItemsLocalCopy.Values.All(o => o.assetid != item.Id) && !item.IsNotTradeable)
                 {
@@ -436,7 +436,7 @@ namespace SteamTrade
         {
             foreach(TradeUserAssets asset in myOfferedItemsLocalCopy.Values)
             {
-                Inventory.Item item = MyInventory.GetItem(asset.assetid);
+                Inventories.Tf2Inventory.Item item = MyInventory.GetItem(asset.assetid);
                 if(item != null && item.Defindex == defindex)
                 {
                     return RemoveItem(item.Id);
@@ -453,11 +453,11 @@ namespace SteamTrade
         /// <returns>Number of items removed.</returns>
         public uint RemoveAllItemsByDefindex(int defindex, uint numToRemove = 0)
         {
-            List<Inventory.Item> items = MyInventory.GetItemsByDefindex(defindex);
+            List<Inventories.Tf2Inventory.Item> items = MyInventory.GetItemsByDefindex(defindex);
 
             uint removed = 0;
 
-            foreach(Inventory.Item item in items)
+            foreach(Inventories.Tf2Inventory.Item item in items)
             {
                 if(item != null && myOfferedItemsLocalCopy.Values.Any(o => o.assetid == item.Id))
                 {
@@ -484,7 +484,7 @@ namespace SteamTrade
 
             foreach(TradeUserAssets asset in myOfferedItemsLocalCopy.Values.ToList())
             {
-                Inventory.Item item = MyInventory.GetItem(asset.assetid);
+                Inventories.Tf2Inventory.Item item = MyInventory.GetItem(asset.assetid);
 
                 if(item != null)
                 {
@@ -755,7 +755,7 @@ namespace SteamTrade
 
             if(OtherInventory != null && !OtherInventory.IsPrivate)
             {
-                Inventory.Item item = OtherInventory.GetItem(asset.assetid);
+                Inventories.Tf2Inventory.Item item = OtherInventory.GetItem(asset.assetid);
                 if(item != null)
                 {
                     Schema.Item schemaItem = CurrentSchema.GetItem(item.Defindex);
@@ -768,7 +768,7 @@ namespace SteamTrade
                 }
                 else
                 {
-                    item = new Inventory.Item
+                    item = new Inventories.Tf2Inventory.Item
                     {
                         Id = asset.assetid,
                         AppId = asset.appid,
@@ -787,7 +787,7 @@ namespace SteamTrade
                 }
 
                 OnUserAddItem(schemaItem, null);
-                // todo: figure out what to send in with Inventory item.....
+                // todo: figure out what to send in with TF2Inventory item.....
             }
         }
 
@@ -823,7 +823,7 @@ namespace SteamTrade
 
             if(OtherInventory != null)
             {
-                Inventory.Item item = OtherInventory.GetItem(asset.assetid);
+                Inventories.Tf2Inventory.Item item = OtherInventory.GetItem(asset.assetid);
                 if(item != null)
                 {
                     Schema.Item schemaItem = CurrentSchema.GetItem(item.Defindex);
@@ -837,7 +837,7 @@ namespace SteamTrade
                 else
                 {
                     // TODO: Log this (Couldn't find item in user's inventory can't find item in CurrentSchema
-                    item = new Inventory.Item
+                    item = new Inventories.Tf2Inventory.Item
                     {
                         Id = asset.assetid,
                         AppId = asset.appid,

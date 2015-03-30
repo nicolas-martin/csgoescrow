@@ -3,6 +3,8 @@ using System.Windows.Forms;
 using SteamKit2;
 using SteamTrade;
 using System.Collections.Generic;
+using SteamTrade.Inventories;
+using Inventories.Tf2Inventory;
 
 namespace SteamBot
 {
@@ -102,12 +104,12 @@ namespace SteamBot
             SendTradeMessage("Success. (Type {0} for commands)", HelpCmd);
         }
 
-        public override void OnTradeAddItem(Schema.Item schemaItem, Inventory.Item inventoryItem)
+        public override void OnTradeAddItem(Schema.Item schemaItem, Tf2Inventory.Item inventoryItem)
         {
             // whatever.   
         }
 
-        public override void OnTradeRemoveItem(Schema.Item schemaItem, Inventory.Item inventoryItem)
+        public override void OnTradeRemoveItem(Schema.Item schemaItem, Tf2Inventory.Item inventoryItem)
         {
             // whatever.
         }
@@ -292,7 +294,7 @@ namespace SteamBot
             var l = Trade.CurrentSchema.GetItemsByCraftingMaterial("supply_crate");
 
 
-            List<Inventory.Item> invItems = new List<Inventory.Item>();
+            List<Tf2Inventory.Item> invItems = new List<Tf2Inventory.Item>();
 
             foreach (var schemaItem in l)
             {

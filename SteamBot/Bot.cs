@@ -14,6 +14,8 @@ using SteamKit2;
 using SteamKit2.Internal;
 using SteamTrade;
 using SteamTrade.Exceptions;
+using SteamTrade.Inventories;
+using Inventories.Tf2Inventory;
 using SteamTrade.TradeOffer;
 using Timer = System.Timers.Timer;
 
@@ -135,6 +137,8 @@ namespace SteamBot
             timer.Interval = Round.Timelimit * 60000;
             timer.Elapsed += ElapsedEventHandler;
 
+
+
         }
 
         private void ElapsedEventHandler(object sender, ElapsedEventArgs e)
@@ -150,7 +154,8 @@ namespace SteamBot
 
         }
 
-        public Inventory MyInventory
+        private Task<Tf2Inventory> myInventoryTask;
+        public Tf2Inventory MyTf2Inventory
         {
             get
             {
@@ -268,12 +273,9 @@ namespace SteamBot
             Log.Info("Connecting...");
             if (!botThread.IsBusy)
                 botThread.RunWorkerAsync();
-            
-            
-
-            StartRound();
             SteamClient.Connect();
             Log.Success("Done Loading Bot!");
+            StartRound();
             return true; // never get here
         }
 
@@ -629,7 +631,7 @@ namespace SteamBot
                     return;
                 }
 
-                //if (tradeManager.OtherInventory.IsPrivate)
+                //if (tradeManager.OtherTf2Inventory.IsPrivate)
                 //{
                 //    SteamFriends.SendChatMessage(callback.OtherClient, 
                 //                                 EChatEntryType.ChatMsg,
@@ -835,12 +837,12 @@ namespace SteamBot
         }
 
         /// <summary>
-        /// Gets the bot's inventory and stores it in MyInventory.
+        /// Gets the bot's inventory and stores it in MyTf2Inventory.
         /// </summary>
         /// <example> This sample shows how to find items in the bot's inventory from a user handler.
         /// <code>
         /// Bot.GetInventory(); // Get the inventory first
-        /// foreach (var item in Bot.MyInventory.Items)
+        /// foreach (var item in Bot.MyTf2Inventory.Items)
         /// {
         ///     if (item.Defindex == 5021)
         ///     {

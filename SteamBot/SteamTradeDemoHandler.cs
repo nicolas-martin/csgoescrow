@@ -1,8 +1,7 @@
-using SteamKit2;
 using System.Collections.Generic;
-using SteamBot.Lottery;
+using SteamKit2;
 using SteamTrade;
-using SteamTrade.Lottery;
+using SteamTrade.Inventories;
 
 namespace SteamBot
 {
@@ -95,7 +94,7 @@ namespace SteamBot
         }
         
         //TODO: More harded bullshit
-        public override void OnTradeAddItem (Schema.Item schemaItem, Inventory.Item inventoryItem) {
+        public override void OnTradeAddItem (Schema.Item schemaItem, Tf2Inventory.Item inventoryItem) {
             // USELESS DEBUG MESSAGES -------------------------------------------------------------------------------
             SendTradeMessage("Object AppID: {0}", inventoryItem.AppId);
             SendTradeMessage("Object ContextId: {0}", inventoryItem.ContextId);
@@ -112,7 +111,7 @@ namespace SteamBot
 
                 case 753:
                     GenericInventory.ItemDescription tmpDescription = OtherSteamInventory.getDescription(inventoryItem.Id);
-                    SendTradeMessage("Steam Inventory Item Added.");
+                    SendTradeMessage("Steam TF2Inventory Item Added.");
                     SendTradeMessage("Type: {0}", tmpDescription.type);
                     SendTradeMessage("Marketable: {0}", (tmpDescription.marketable ? "Yes" : "No"));
                     break;
@@ -129,7 +128,7 @@ namespace SteamBot
             // ------------------------------------------------------------------------------------------------------
         }
         
-        public override void OnTradeRemoveItem (Schema.Item schemaItem, Inventory.Item inventoryItem) {}
+        public override void OnTradeRemoveItem (Schema.Item schemaItem, Tf2Inventory.Item inventoryItem) {}
         
         public override void OnTradeMessage (string message) {
             switch (message.ToLower())

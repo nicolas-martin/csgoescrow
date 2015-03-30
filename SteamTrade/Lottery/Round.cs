@@ -71,7 +71,7 @@ namespace SteamBot.Lottery
             var total = 0;
             foreach (var item in items)
             {
-                //Get item value
+                //TODO: Get item value
             }
 
             return total;

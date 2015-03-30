@@ -3,6 +3,8 @@ using SteamTrade;
 using SteamTrade.TradeOffer;
 using System;
 using System.Collections.Generic;
+using SteamTrade.Inventories;
+using Inventories.Tf2Inventory;
 using TradeAsset = SteamTrade.TradeOffer.TradeOffer.TradeStatusUser.TradeAsset;
 
 namespace SteamBot
@@ -114,9 +116,9 @@ namespace SteamBot
 
         public override void OnTradeInit() { }
 
-        public override void OnTradeAddItem(Schema.Item schemaItem, Inventory.Item inventoryItem) { }
+        public override void OnTradeAddItem(Schema.Item schemaItem, Tf2Inventory.Item inventoryItem) { }
 
-        public override void OnTradeRemoveItem(Schema.Item schemaItem, Inventory.Item inventoryItem) { }
+        public override void OnTradeRemoveItem(Schema.Item schemaItem, Tf2Inventory.Item inventoryItem) { }
 
         public override void OnTradeMessage(string message) { }
 

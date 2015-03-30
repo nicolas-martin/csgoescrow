@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using SteamKit2;
 using SteamTrade;
+using SteamTrade.Inventories;
+using Inventories.Tf2Inventory;
 
 namespace SteamBot
 {
@@ -27,6 +29,24 @@ namespace SteamBot
         {
         }
 
+        public override void OnBotCommand(string command)
+        {
+            List<long> contextId = new List<long>();
+            //contextId.Add(6);
+            contextId.Add(2);
+
+            var genericInv = new GenericInventory(SteamWeb);
+            //var mySteamId = new SteamID(Convert.ToUInt32(76561197967970346), EUniverse.Public, EAccountType.Individual);
+            genericInv.load(730, contextId, new SteamID(76561197967970346));
+
+            var inventory = genericInv.items;
+            //foreach (var item in genericInv.items)
+            //{
+            //    Bot.log.Info(genericInv.getDescription(item.Key).name);
+
+            //}
+        }
+
         public override void OnChatRoomMessage(SteamID chatID, SteamID sender, string message)
         {
             Log.Info(Bot.SteamFriends.GetFriendPersonaName(sender) + ": " + message);
@@ -37,16 +57,16 @@ namespace SteamBot
         
         public override void OnMessage (string message, EChatEntryType type)
         {
-            //var inventory = OtherInventory;
+            //var inventory = OtherTf2Inventory;
             //var jsonIventory = JsonConvert.SerializeObject(inventory);
-            //var inventory2 = JsonConvert.DeserializeObject<Inventory>(jsonIventory);
+            //var inventory2 = JsonConvert.DeserializeObject<TF2Inventory>(jsonIventory);
             //Log.Info(jsonIventory);
             //Console.WriteLine("test");
             //SendChatMessage(Bot.ChatResponse);
             /**                         **/
             //var rand = new Random();
             //Bot.GetInventory();
-            //var inventory = Bot.MyInventory.Items;
+            //var inventory = Bot.MyTf2Inventory.Items;
             //var randomItem = inventory[rand.Next(inventory.Length)];
             //var tradeOffer = Bot.NewTradeOffer(OtherSID);
             //tradeOffer.Items.AddMyItem(randomItem.AppId, randomItem.ContextId, (long) randomItem.Id);
@@ -118,9 +138,9 @@ namespace SteamBot
             SendTradeMessage("Success. Please put up your items.");
         }
         
-        public override void OnTradeAddItem (Schema.Item schemaItem, Inventory.Item inventoryItem) {}
+        public override void OnTradeAddItem (Schema.Item schemaItem, Tf2Inventory.Item inventoryItem) {}
         
-        public override void OnTradeRemoveItem (Schema.Item schemaItem, Inventory.Item inventoryItem) {}
+        public override void OnTradeRemoveItem (Schema.Item schemaItem, Tf2Inventory.Item inventoryItem) {}
         
         public override void OnTradeMessage (string message) {}
         
@@ -200,7 +220,7 @@ namespace SteamBot
 
             //foreach (TradeUserAssets asset in Trade.OtherOfferedItems)
             //{
-            //    var item = Trade.OtherInventory.GetItem(asset.assetid);
+            //    var item = Trade.OtherTf2Inventory.GetItem(asset.assetid);
             //    if (item.Defindex == 5000)
             //        AmountAdded += TF2Value.Scrap;
             //    else if (item.Defindex == 5001)

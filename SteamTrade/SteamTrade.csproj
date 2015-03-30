@@ -55,12 +55,13 @@
     <Compile Include="Exceptions\TradeException.cs" />
     <Compile Include="ForeignInventory.cs" />
     <Compile Include="GenericInventory.cs" />
+    <Compile Include="Inventories\CSGOInventory.cs" />
     <Compile Include="Lottery\GameAppId.cs" />
     <Compile Include="Lottery\Round.cs" />
     <Compile Include="TF2Value.cs" />
     <Compile Include="Trade.cs" />
     <Compile Include="Schema.cs" />
-    <Compile Include="Inventory.cs" />
+    <Compile Include="Inventories\TF2Inventory.cs" />
     <Compile Include="SteamWeb.cs" />
     <Compile Include="TradeOffer\OfferSession.cs" />
     <Compile Include="TradeOffer\TradeOffer.cs" />
@@ -74,6 +75,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>

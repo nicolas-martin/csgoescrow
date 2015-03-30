@@ -154,7 +154,7 @@ namespace SteamTrade
                         continue;
                     }
 
-                    //rgInventory = Items on Steam Inventory 
+                    //rgInventory = Items on Steam TF2Inventory 
                     foreach (var item in invResponse.rgInventory)
                     {
 
