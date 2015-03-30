@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Linq;
-using System.Security.AccessControl;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Timers;
 using SteamKit2;
 using SteamTrade;
 using SteamTrade.Inventories;
-using Inventories.Tf2Inventory;
 using SteamTrade.TradeOffer;
 
 namespace SteamBot
@@ -289,7 +286,7 @@ namespace SteamBot
 
         #region SendChatMessage methods
 
-        private void SendMessage(Action<string> messageFunc, string message, System.Timers.Timer timer, params object[] formatParams)
+        private void SendMessage(Action<string> messageFunc, string message, Timer timer, params object[] formatParams)
         {
             try
             {
@@ -315,7 +312,7 @@ namespace SteamBot
                 return;
             }
 
-            System.Timers.Timer timer = new System.Timers.Timer
+            Timer timer = new Timer
             {
                 Interval = delayMs,
                 AutoReset = false

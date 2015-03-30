@@ -1,48 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
-using SteamTrade;
 
-namespace Inventories.Tf2Inventory
+namespace SteamTrade.Inventories
 {
-    public class CSGOInventory
+    public class CsgoInventory
     {
+        public List<Item> Items { get; set; }
+        public bool Success { get; private set; }
+        public bool More { get; private set; }
+        public bool MoreStart { get; private set; }
+
+
         /// <summary>
         /// Fetches the inventory for the given Steam ID using the Steam API.
         /// </summary>
         /// <returns>The give users inventory.</returns>
         /// <param name='steamId'>Steam identifier.</param>
         /// <param name='apiKey'>The needed Steam API key.</param>
-        public static CSGOInventory FetchInventory(ulong steamId, string apiKey, SteamWeb steamWeb)
+        public static CsgoInventory FetchInventory(ulong steamId, string apiKey, SteamWeb steamWeb)
         {
-            var url = "http://api.steampowered.com/IEconItems_730/GetPlayerItems/v0001/?key=" + apiKey + "&steamid=" + steamId;
+            //var url = "http://api.steampowered.com/IEconItems_730/GetPlayerItems/v0001/?key=" + apiKey + "&steamid=" + steamId;
+            var url = string.Format("http://steamcommunity.com/profiles/{0}/inventory/json/{1}/{2}", steamId, 730, 2);
             var response = steamWeb.Fetch(url, "GET", null, false);
-            var result = JsonConvert.DeserializeObject<InventoryResponse>(response);
-            return new CSGOInventory(result.Result);
+
+            dynamic obj = JsonConvert.DeserializeObject<dynamic>(response);
+            bool success = obj["success"];
+            bool more = obj["more"];
+            bool moreStart = obj["more_start"];
+            var items = new List<Item>();
+            foreach (var variable in obj["rgDescriptions"].Children())
+            {
+                string str = variable.Value.ToString();
+                var desc = JsonConvert.DeserializeObject<Item>(str);
+                items.Add(desc);
+            }
+
+
+            //var result = JsonConvert.DeserializeObject<InventoryResponse>(response);
+            return new CsgoInventory(items, success, more, moreStart);
         }
 
-        public List<Item> Items { get; set; }
-        public bool IsPrivate { get; private set; }
-        public bool IsGood { get; private set; }
 
-        protected CSGOInventory(InventoryResult apiInventory)
+        protected CsgoInventory(List<Item> items, bool success, bool more, bool moreStart)
         {
-            Items = apiInventory.Items;
-            IsPrivate = (apiInventory.Status == "15");
-            IsGood = (apiInventory.Status == "1");
+            Items = items;
+            Success = success;
+            More = more;
+            MoreStart = moreStart;
         }
 
-        public Item GetItem(ulong id)
+        public Item GetItem(string id)
         {
-            return (Items == null ? null : Items.FirstOrDefault(item => item.Id == id));
-        }
+            return (Items == null ? null : Items.FirstOrDefault(item => item.ClassId == id));
 
-        public List<Item> GetItemsByDefindex(int defindex)
-        {
-            return Items.Where(item => item.Defindex == defindex).ToList();
         }
 
         public class Item
@@ -50,80 +62,50 @@ namespace Inventories.Tf2Inventory
             public int AppId = 730;
             public long ContextId = 2;
 
-            [JsonProperty("id")]
-            public ulong Id { get; set; }
+            //[JsonProperty("appid")]
+            //public string Appid { get; set; }
 
-            [JsonProperty("original_id")]
-            public ulong OriginalId { get; set; }
+            [JsonProperty("classid")]
+            public string ClassId { get; set; }
 
-            [JsonProperty("defindex")]
-            public ushort Defindex { get; set; }
+            [JsonProperty("instanceid")]
+            public string InstanceId { get; set; }
 
-            [JsonProperty("level")]
-            public byte Level { get; set; }
+            [JsonProperty("icon_url")]
+            public string IconUrl { get; set; }
 
-            [JsonProperty("quality")]
-            public string Quality { get; set; }
+            [JsonProperty("icon_url_large")]
+            public string IconUrlLarge { get; set; }
 
-            [JsonProperty("quantity")]
-            public int RemainingUses { get; set; }
+            [JsonProperty("icon_drag_url")]
+            public string IconDragUrl { get; set; }
 
-            [JsonProperty("origin")]
-            public int Origin { get; set; }
+            [JsonProperty("name")]
+            public string Name { get; set; }
 
-            [JsonProperty("custom_name")]
-            public string CustomName { get; set; }
+            [JsonProperty("market_hash_name")]
+            public string MarketHashName { get; set; }
 
-            [JsonProperty("custom_desc")]
-            public string CustomDescription { get; set; }
+            [JsonProperty("market_name")]
+            public string MarketName { get; set; }
 
-            [JsonProperty("flag_cannot_craft")]
-            public bool IsNotCraftable { get; set; }
+            [JsonProperty("name_color")]
+            public string NameColor { get; set; }
 
-            [JsonProperty("flag_cannot_trade")]
-            public bool IsNotTradeable { get; set; }
+            [JsonProperty("background_color")]
+            public string BackgroundColor { get; set; }
 
-            [JsonProperty("attributes")]
-            public ItemAttribute[] Attributes { get; set; }
+            [JsonProperty("type")]
+            public string Type { get; set; }
 
-            [JsonProperty("contained_item")]
-            public Item ContainedItem { get; set; }
-        }
+            [JsonProperty("tradable")]
+            public int Tradable { get; set; }
 
-        public class ItemAttribute
-        {
-            [JsonProperty("defindex")]
-            public ushort Defindex { get; set; }
+            [JsonProperty("marketable")]
+            public int Marketable { get; set; }
 
-            [JsonProperty("value")]
-            public string Value { get; set; }
-
-            [JsonProperty("float_value")]
-            public float FloatValue { get; set; }
-
-            [JsonProperty("account_info")]
-            public AccountInfo AccountInfo { get; set; }
-        }
-
-        public class AccountInfo
-        {
-            [JsonProperty("steamid")]
-            public ulong SteamId { get; set; }
-
-            [JsonProperty("personaname")]
-            public string PersonaName { get; set; }
-        }
-
-        protected class InventoryResult
-        {
-            public string Status { get; set; }
-
-            public List<Item> Items { get; set; }
-        }
-
-        protected class InventoryResponse
-        {
-            public InventoryResult Result;
+            [JsonProperty("commodity")]
+            public int Commodity { get; set; }
         }
 
     }

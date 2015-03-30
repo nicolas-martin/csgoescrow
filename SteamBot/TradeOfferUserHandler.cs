@@ -1,11 +1,8 @@
-﻿using SteamKit2;
+﻿using System.Collections.Generic;
+using SteamKit2;
 using SteamTrade;
-using SteamTrade.TradeOffer;
-using System;
-using System.Collections.Generic;
 using SteamTrade.Inventories;
-using Inventories.Tf2Inventory;
-using TradeAsset = SteamTrade.TradeOffer.TradeOffer.TradeStatusUser.TradeAsset;
+using SteamTrade.TradeOffer;
 
 namespace SteamBot
 {
@@ -126,7 +123,7 @@ namespace SteamBot
 
         public override void OnTradeAccept() { }
 
-        private bool DummyValidation(List<TradeAsset> myAssets, List<TradeAsset> theirAssets)
+        private bool DummyValidation(List<TradeOffer.TradeStatusUser.TradeAsset> myAssets, List<TradeOffer.TradeStatusUser.TradeAsset> theirAssets)
         {
             //compare items etc
             if (myAssets.Count == theirAssets.Count)

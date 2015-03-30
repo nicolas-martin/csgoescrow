@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Windows.Forms;
+using System.Collections.Generic;
 using SteamKit2;
 using SteamTrade;
-using System.Collections.Generic;
 using SteamTrade.Inventories;
-using Inventories.Tf2Inventory;
 
 namespace SteamBot
 {

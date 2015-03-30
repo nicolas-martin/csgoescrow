@@ -15,7 +15,6 @@ using SteamKit2.Internal;
 using SteamTrade;
 using SteamTrade.Exceptions;
 using SteamTrade.Inventories;
-using Inventories.Tf2Inventory;
 using SteamTrade.TradeOffer;
 using Timer = System.Timers.Timer;
 

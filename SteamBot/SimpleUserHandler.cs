@@ -4,7 +4,6 @@ using System.Linq;
 using SteamKit2;
 using SteamTrade;
 using SteamTrade.Inventories;
-using Inventories.Tf2Inventory;
 
 namespace SteamBot
 {
@@ -31,20 +30,9 @@ namespace SteamBot
 
         public override void OnBotCommand(string command)
         {
-            List<long> contextId = new List<long>();
-            //contextId.Add(6);
-            contextId.Add(2);
 
-            var genericInv = new GenericInventory(SteamWeb);
-            //var mySteamId = new SteamID(Convert.ToUInt32(76561197967970346), EUniverse.Public, EAccountType.Individual);
-            genericInv.load(730, contextId, new SteamID(76561197967970346));
+            var inv = CsgoInventory.FetchInventory(76561197967970346, Bot.ApiKey, SteamWeb);
 
-            var inventory = genericInv.items;
-            //foreach (var item in genericInv.items)
-            //{
-            //    Bot.log.Info(genericInv.getDescription(item.Key).name);
-
-            //}
         }
 
         public override void OnChatRoomMessage(SteamID chatID, SteamID sender, string message)
