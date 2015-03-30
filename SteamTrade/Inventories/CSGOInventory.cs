@@ -51,7 +51,7 @@ namespace SteamTrade.Inventories
             MoreStart = moreStart;
         }
 
-        public Item GetItem(string id)
+        public Item GetItem(ulong id)
         {
             return (Items == null ? null : Items.FirstOrDefault(item => item.ClassId == id));
 
@@ -66,7 +66,7 @@ namespace SteamTrade.Inventories
             //public string Appid { get; set; }
 
             [JsonProperty("classid")]
-            public string ClassId { get; set; }
+            public ulong ClassId { get; set; }
 
             [JsonProperty("instanceid")]
             public string InstanceId { get; set; }

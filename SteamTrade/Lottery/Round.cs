@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using SteamKit2;
-using SteamTrade.TradeWebAPI;
 
-namespace SteamBot.Lottery
+namespace SteamTrade.Lottery
 {
-    public class Round
+    public class Round<T>
     {
         public int Id { get; set; }
-        public Dictionary<SteamID, List<TradeUserAssets>> ItemsPerPlayer { get; set; }
+        public Dictionary<SteamID, List<T>> ItemsPerPlayer { get; set; }
         public int Timelimit { get; set; }
         public DateTime StartTime { get; set; }
         public int ItemLimit { get; set; }
         public int BetMinimum { get; set; }
         public SteamID Winner { get; set; }
-        public TradeUserAssets House { get; set; }
-        public List<TradeUserAssets> Pot { get; set; }
+        public T House { get; set; }
+        public List<T> Pot { get; set; }
 
         public bool IsCurrent { get; set; }
 
@@ -38,16 +37,14 @@ namespace SteamBot.Lottery
             }
         }
 
-        
-
         public Round(int timelimit, int itemLimit, int betMinimum)
         {
             Timelimit = timelimit;
             ItemLimit = itemLimit;
             BetMinimum = betMinimum;
             IsCurrent = true;
-            ItemsPerPlayer = new Dictionary<SteamID, List<TradeUserAssets>>();
-            Pot = new List<TradeUserAssets>();
+            ItemsPerPlayer = new Dictionary<SteamID, List<T>>();
+            Pot = new List<T>();
             StartRound();
 
         }
@@ -66,12 +63,14 @@ namespace SteamBot.Lottery
             return valueForPlayer / PotValue;
         }
 
-        public float GetItemsValue(List<TradeUserAssets> items)
+        public float GetItemsValue(List<T> items)
         {
             var total = 0;
             foreach (var item in items)
             {
                 //TODO: Get item value
+                
+                
             }
 
             return total;

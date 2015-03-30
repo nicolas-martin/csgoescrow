@@ -10,6 +10,8 @@ namespace SteamBot
     public class SimpleUserHandler : UserHandler
     {
         public TF2Value AmountAdded;
+        public CsgoInventory MySteamInventory { get; set; }
+        public CsgoInventory OtherSteamInventory { get; set; }
         
 
         public SimpleUserHandler (Bot bot, SteamID sid) : base(bot, sid) {}
@@ -18,7 +20,7 @@ namespace SteamBot
         {
             return false;
         }
-
+         
         public override bool OnFriendAdd () 
         {
             return true;
@@ -124,8 +126,19 @@ namespace SteamBot
         public override void OnTradeInit() 
         {
             SendTradeMessage("Success. Please put up your items.");
+            MySteamInventory = CsgoInventory.FetchInventory(Bot.SteamClient.SteamID, Bot.ApiKey, SteamWeb);
+            OtherSteamInventory = CsgoInventory.FetchInventory(OtherSID, Bot.ApiKey, SteamWeb);
+            //mySteamInventory.load(753, contextId, Bot.SteamClient.SteamID);
+            //OtherSteamInventory.load(753, contextId, OtherSID);
+
+            if (!MySteamInventory.Success | !OtherSteamInventory.Success)
+            {
+                SendTradeMessage("Couldn't open an inventory, type 'errors' for more info.");
+            }
         }
+
         
+
         public override void OnTradeAddItem (Schema.Item schemaItem, Tf2Inventory.Item inventoryItem) {}
         
         public override void OnTradeRemoveItem (Schema.Item schemaItem, Tf2Inventory.Item inventoryItem) {}
@@ -154,6 +167,7 @@ namespace SteamBot
 
         public override void OnTradeSuccess()
         {
+            //TODO: Log in MySQL
 
             Log.Success("Trade Complete.");
         }
@@ -163,14 +177,15 @@ namespace SteamBot
             Log.Warn("Trade ended awaiting email confirmation");
             SendChatMessage("Please complete the email confirmation to finish the trade");
 
-			Bot.Round.ItemsPerPlayer.Add(Trade.OtherSID, Trade.OtherOfferedItems.ToList());
+            var concreteItem = Trade.OtherOfferedItems.Select(offeredItem => OtherSteamInventory.GetItem(offeredItem.assetid)).ToList();
+
+            Bot.Round.ItemsPerPlayer.Add(Trade.OtherSID, concreteItem);
 
 			//TODO: We have reached the max amount of items.. Do something.
 			if (Bot.Round.ItemLimit >= Bot.Round.ItemsInRound) {
 				Bot.Round.IsCurrent = false;
 
 			}
-
 		
         }
 
@@ -185,7 +200,7 @@ namespace SteamBot
                     {
                         Log.Success("Trade Accepted!");
                         //TODO: To move out on OnTradeSuccess
-                        Bot.Round.ItemsPerPlayer.Add(Trade.OtherSID, Trade.OtherOfferedItems.ToList());
+                        //Bot.Round.ItemsPerPlayer.Add(Trade.OtherSID, Trade.OtherOfferedItems.ToList());
                         //var jsonIventory = JsonConvert.SerializeObject(Trade.OtherOfferedItems);
                         //var inventory2 = JsonConvert.DeserializeObject<IEnumerable<TradeUserAssets>>(jsonIventory);
                         
@@ -199,6 +214,7 @@ namespace SteamBot
             }
         }
 
+        //TODO: Validate that the items are of the correct type.
         public bool Validate ()
         {
             return true;

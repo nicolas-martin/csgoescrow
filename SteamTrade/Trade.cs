@@ -4,7 +4,6 @@ using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Threading;
 using System.Threading.Tasks;
-using SteamBot.Lottery;
 using SteamKit2;
 using SteamTrade.Exceptions;
 using SteamTrade.TradeWebAPI;

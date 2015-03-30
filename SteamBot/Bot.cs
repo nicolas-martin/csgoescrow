@@ -8,13 +8,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
-using SteamBot.Lottery;
 using SteamBot.SteamGroups;
 using SteamKit2;
 using SteamKit2.Internal;
 using SteamTrade;
 using SteamTrade.Exceptions;
 using SteamTrade.Inventories;
+using SteamTrade.Lottery;
 using SteamTrade.TradeOffer;
 using Timer = System.Timers.Timer;
 
@@ -27,8 +27,8 @@ namespace SteamBot
         #endregion
 
         #region Private readonly variables
+        public Round<CsgoInventory.Item> Round { get; set; }
         private readonly SteamUser.LogOnDetails logOnDetails;
-        public Round Round { get; set; }
 
         private readonly string schemaLang;
         private readonly string logFile;
@@ -130,7 +130,14 @@ namespace SteamBot
 
         public void StartRound()
         {
-            Round = new Round(5, 10, 0);
+            Round = new Round<CsgoInventory.Item>(5, 10, 0);
+
+            foreach (var item in Round.Pot)
+            {
+                
+                
+
+            }
 
             var timer = new Timer();
             timer.Interval = Round.Timelimit * 60000;
