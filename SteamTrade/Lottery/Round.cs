@@ -20,7 +20,40 @@ namespace SteamTrade.Lottery
         public T House { get; set; }
         public List<T> Pot { get; set; }
 
-        public bool IsCurrent { get; set; }
+        public bool IsCurrent {
+            get
+            {
+                return true; //Gotta sort this out 
+            }
+            set
+            {
+                
+                //ERROR CHECK select count(roundId) from round where roundActive = 'true'; MUST = 1 or we're boned
+                
+                //Get round
+                //var int roundId = ###SQL ---select count(roundId) from round where roundActive = 'true';
+                //Get Winner
+                //int winnerSteamId = Round<null>.GetWinner();
+                //GetPotValue
+                //??
+                //GetpotJson
+                //??
+                //GetSkim
+                //??
+
+                // update round set potJson = 'CURRENT POT JSON + THIS BET JSON GONNNA HAVE TO WORK THAT OUT', potValue = #potValue where roundId = #roundID; #'UPDATE POT VALUE GONNA HAVE TO WORK THIS OUT TOO'
+                
+                //Send Winner Winnings
+                //
+                //Get winnerSteaemTradeId
+                //
+                // update round set skimItemsJson = '{skim}', winnerSteamId = #winnnerSteamId, winnerSteamTradeId = 1111110, timeEnded = NOW() where roundId = #roundId;
+
+                //Start new Round
+                //insert into round (timeStarted) values (Now());
+
+            }
+        }
 
 		public int ItemsInRound {
 			get {

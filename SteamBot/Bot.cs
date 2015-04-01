@@ -131,6 +131,8 @@ namespace SteamBot
 
         public void StartRound()
         {
+
+            //ADD SQL CALL-- insert into round (timeStarted) values (Now());
             Round = new Round<Item>(5, 10, 0, SteamWeb);
 
             var timer = new Timer();
@@ -149,8 +151,8 @@ namespace SteamBot
             }
 
 
-            var winner = Round.GetWinner();
-            ////TODO: Payout winner
+           
+            ////TODO: Payout winner -- taking care of in set method for Round.IsCurrent
             //StartRound();
             //Round.IsCurrent = false;
 

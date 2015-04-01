@@ -169,6 +169,19 @@ namespace SteamBot
         {
             //TODO: Log in MySQL
 
+//#Get active round
+//select roundId from round where roundActive = 'true';
+//#Count active rounds should be <= 1
+//select count(roundId) from round where roundActive = 'true';
+
+//#Add Bets
+//insert into bets (roundId, steamId, steamTradeId, itemsJson, itemsValue) values (#--REPLACE--ALL--VARS--#C_VAR roundId, steamId, steamTradeId, itemsJson, itemsValue); 
+
+//#Update round potJson and pot Value after every bet is entered
+//update round set potJson = 'CURRENT POT JSON + THIS BET JSON GONNNA HAVE TO WORK THAT OUT', potValue = 1234.45 where roundId = 1; #active round ; #'UPDATE POT VALUE GONNA HAVE TO WORK THIS OUT TOO'
+
+
+
             Log.Success("Trade Complete.");
         }
 
