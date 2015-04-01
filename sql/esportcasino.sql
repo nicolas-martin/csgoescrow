@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 02, 2015 at 01:21 AM
+-- Generation Time: Apr 02, 2015 at 01:39 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `esportcasino`
 --
+CREATE DATABASE IF NOT EXISTS `esportcasino` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `esportcasino`;
 
 -- --------------------------------------------------------
 
