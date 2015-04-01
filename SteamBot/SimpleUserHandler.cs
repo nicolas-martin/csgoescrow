@@ -179,7 +179,8 @@ namespace SteamBot
 
 //#Update round potJson and pot Value after every bet is entered
 //update round set potJson = 'CURRENT POT JSON + THIS BET JSON GONNNA HAVE TO WORK THAT OUT', potValue = 1234.45 where roundId = 1; #active round ; #'UPDATE POT VALUE GONNA HAVE TO WORK THIS OUT TOO'
-
+//update the pot money value of the round after everybet.
+//We dont keep track of pot seperately. The pot is a join of all the bets where round
 
 
             Log.Success("Trade Complete.");
