@@ -162,8 +162,7 @@ namespace SteamBot
 
         }
 
-        private Task<Tf2Inventory> myInventoryTask;
-        public Tf2Inventory MyTf2Inventory
+        public Inventory MyInventory
         {
             get
             {
@@ -639,7 +638,7 @@ namespace SteamBot
                     return;
                 }
 
-                //if (tradeManager.OtherTf2Inventory.IsPrivate)
+                //if (tradeManager.OtherInventory.IsPrivate)
                 //{
                 //    SteamFriends.SendChatMessage(callback.OtherClient, 
                 //                                 EChatEntryType.ChatMsg,
@@ -845,12 +844,12 @@ namespace SteamBot
         }
 
         /// <summary>
-        /// Gets the bot's inventory and stores it in MyTf2Inventory.
+        /// Gets the bot's inventory and stores it in MyInventory.
         /// </summary>
         /// <example> This sample shows how to find items in the bot's inventory from a user handler.
         /// <code>
         /// Bot.GetInventory(); // Get the inventory first
-        /// foreach (var item in Bot.MyTf2Inventory.Items)
+        /// foreach (var item in Bot.MyInventory.Items)
         /// {
         ///     if (item.Defindex == 5021)
         ///     {

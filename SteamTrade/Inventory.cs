@@ -4,11 +4,11 @@ using System.Linq;
 using Newtonsoft.Json;
 using SteamKit2;
 
-namespace SteamTrade.Inventories
+namespace SteamTrade
 {
-    public class Tf2Inventory
+    public class Inventory
     {
-        public Tf2Inventory()
+        public Inventory()
         {
         }
 
@@ -61,7 +61,7 @@ namespace SteamTrade.Inventories
         public bool IsPrivate { get; private set; }
         public bool IsGood { get; private set; }
 
-        protected Tf2Inventory (InventoryResult apiInventory)
+        protected Inventory (InventoryResult apiInventory)
         {
             NumSlots = apiInventory.num_backpack_slots;
             Items = apiInventory.items;

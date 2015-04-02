@@ -47,7 +47,7 @@ namespace SteamBot
         
         public override void OnMessage (string message, EChatEntryType type)
         {
-            //var inventory = OtherTf2Inventory;
+            //var inventory = OtherInventory;
             //var jsonIventory = JsonConvert.SerializeObject(inventory);
             //var inventory2 = JsonConvert.DeserializeObject<TF2Inventory>(jsonIventory);
             //Log.Info(jsonIventory);
@@ -56,7 +56,7 @@ namespace SteamBot
             /**                         **/
             //var rand = new Random();
             //Bot.GetInventory();
-            //var inventory = Bot.MyTf2Inventory.Items;
+            //var inventory = Bot.MyInventory.Items;
             //var randomItem = inventory[rand.Next(inventory.Length)];
             //var tradeOffer = Bot.NewTradeOffer(OtherSID);
             //tradeOffer.Items.AddMyItem(randomItem.AppId, randomItem.ContextId, (long) randomItem.Id);
@@ -77,7 +77,7 @@ namespace SteamBot
             var inventory = genericInv.items;
             foreach (var item in genericInv.items)
             {
-                Bot.log.Info(genericInv.getDescription(item.Key).name);
+                Log.Info(genericInv.getDescription(item.Key).name);
                 
             }
 
@@ -139,9 +139,9 @@ namespace SteamBot
 
         
 
-        public override void OnTradeAddItem (Schema.Item schemaItem, Tf2Inventory.Item inventoryItem) {}
+        public override void OnTradeAddItem (Schema.Item schemaItem, Inventory.Item inventoryItem) {}
         
-        public override void OnTradeRemoveItem (Schema.Item schemaItem, Tf2Inventory.Item inventoryItem) {}
+        public override void OnTradeRemoveItem (Schema.Item schemaItem, Inventory.Item inventoryItem) {}
         
         public override void OnTradeMessage (string message) {}
         
@@ -238,7 +238,7 @@ namespace SteamBot
 
             //foreach (TradeUserAssets asset in Trade.OtherOfferedItems)
             //{
-            //    var item = Trade.OtherTf2Inventory.GetItem(asset.assetid);
+            //    var item = Trade.OtherInventory.GetItem(asset.assetid);
             //    if (item.Defindex == 5000)
             //        AmountAdded += TF2Value.Scrap;
             //    else if (item.Defindex == 5001)

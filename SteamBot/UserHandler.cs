@@ -19,7 +19,7 @@ namespace SteamBot
         public SteamID OtherSID { get; private set; }
 
         private bool _lastMessageWasFromTrade;
-        private Task<Tf2Inventory> otherInventoryTask;
+        private Task<Inventory> otherInventoryTask;
         private TaskCompletionSource<string> _waitingOnUserResponse;
 
         protected SteamWeb SteamWeb
@@ -52,12 +52,12 @@ namespace SteamBot
         }
 
         /// <summary>
-        /// Gets the other's inventory and stores it in OtherTf2Inventory.
+        /// Gets the other's inventory and stores it in OtherInventory.
         /// </summary>
         /// <example> This sample shows how to find items in the other's inventory from a user handler.
         /// <code>
         /// GetInventory(); // Not necessary unless you know the user's inventory has changed
-        /// foreach (var item in OtherTf2Inventory)
+        /// foreach (var item in OtherInventory)
         /// {
         ///     if (item.Defindex == 5021)
         ///     {
@@ -68,10 +68,10 @@ namespace SteamBot
         /// </example>
         public void GetOtherInventory()
         {
-            otherInventoryTask = Task.Factory.StartNew(() =>Tf2Inventory.FetchInventory(OtherSID, Bot.ApiKey, SteamWeb));
+            otherInventoryTask = Task.Factory.StartNew(() =>Inventory.FetchInventory(OtherSID, Bot.ApiKey, SteamWeb));
         }
 
-        public Tf2Inventory OtherTf2Inventory
+        public Inventory OtherInventory
         {
             get
             {
@@ -248,9 +248,9 @@ namespace SteamBot
 
         public abstract void OnTradeInit ();
 
-        public abstract void OnTradeAddItem (Schema.Item schemaItem, Tf2Inventory.Item inventoryItem);
+        public abstract void OnTradeAddItem (Schema.Item schemaItem, Inventory.Item inventoryItem);
 
-        public abstract void OnTradeRemoveItem (Schema.Item schemaItem, Tf2Inventory.Item inventoryItem);
+        public abstract void OnTradeRemoveItem (Schema.Item schemaItem, Inventory.Item inventoryItem);
 
         public void OnTradeMessageHandler(string message)
         {
