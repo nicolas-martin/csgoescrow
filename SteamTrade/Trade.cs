@@ -345,7 +345,6 @@ namespace SteamTrade
             return success;
         }
 
-        //TODO: Test a little
         public bool AddItem(IEnumerable<TradeUserAssets> items)
         {
             return items.Select(AddItem).FirstOrDefault();

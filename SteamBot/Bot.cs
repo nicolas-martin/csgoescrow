@@ -129,9 +129,29 @@ namespace SteamBot
             }
         }
 
-        public void StartRound()
+        public void EndRound()
         {
+            Round.IsCurrent = false;
 
+            var winnerSteamId = new SteamID((uint) Round.GetWinner(), EUniverse.Public, EAccountType.Individual);
+
+            var tradeOffer = NewTradeOffer(winnerSteamId);
+
+            foreach (var potItems in Round.Pot)
+            {
+                tradeOffer.Items.AddMyItem(potItems.AppId, potItems.ContextId, (long)potItems.ClassId);
+            }
+
+            string tradeId;
+            tradeOffer.Send(out tradeId);
+
+            StartRound();
+
+
+        }
+
+        private void StartRound()
+        {
             //ADD SQL CALL-- insert into round (timeStarted) values (Now());
             Round = new Round<Item>(5, 10, 0, SteamWeb);
 
@@ -139,26 +159,11 @@ namespace SteamBot
             timer.Interval = Round.Timelimit * 60000;
             timer.Elapsed += ElapsedEventHandler;
 
-
-
         }
 
         private void ElapsedEventHandler(object sender, ElapsedEventArgs e)
         {
-            foreach (var items in Round.Pot)
-            {
-                
-            }
-
-
-           
-            ////TODO: Payout winner -- taking care of in set method for Round.IsCurrent
-            //StartRound();
-            //Round.IsCurrent = false;
-
-            //this.tradeManager.InitializeTrade(SteamClient.SteamID, winner);
-            //var trade = tradeManager.CreateTrade(SteamClient.SteamID, winner);
-            //trade.AddItem(Round.Pot);
+            EndRound();
 
         }
 
@@ -282,7 +287,7 @@ namespace SteamBot
                 botThread.RunWorkerAsync();
             SteamClient.Connect();
             Log.Success("Done Loading Bot!");
-            StartRound();
+            //StartRound();
             return true; // never get here
         }
 

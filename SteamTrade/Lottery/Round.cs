@@ -9,6 +9,9 @@ namespace SteamTrade.Lottery
 {
     public class Round<T> where T : ITradable
     {
+
+        #region Properties
+
         public int Id { get; set; }
         public Dictionary<SteamID, List<T>> ItemsPerPlayer { get; set; }
         public int Timelimit { get; set; }
@@ -20,40 +23,41 @@ namespace SteamTrade.Lottery
         public T House { get; set; }
         public List<T> Pot { get; set; }
 
-        public bool IsCurrent {
-            get
-            {
-                return true; //Gotta sort this out 
-            }
-            set
-            {
-                
-                //ERROR CHECK select count(roundId) from round where roundActive = 'true'; MUST = 1 or we're boned
-                
-                //Get round
-                //var int roundId = ###SQL ---select count(roundId) from round where roundActive = 'true';
-                //Get Winner
-                //int winnerSteamId = Round<null>.GetWinner();
-                //GetPotValue
-                //??
-                //GetpotJson
-                //??
-                //GetSkim
-                //??
+        //TODO: Move this into it's own function?
+        public bool IsCurrent { get; set; }
+        //{
+        //    get { return true; //Gotta sort this out 
+        //    }
+        //    set
+        //    {
 
-                // update round set potJson = 'CURRENT POT JSON + THIS BET JSON GONNNA HAVE TO WORK THAT OUT', potValue = #potValue where roundId = #roundID; #'UPDATE POT VALUE GONNA HAVE TO WORK THIS OUT TOO'
-                
-                //Send Winner Winnings
-                //
-                //Get winnerSteaemTradeId
-                //
-                // update round set skimItemsJson = '{skim}', winnerSteamId = #winnnerSteamId, winnerSteamTradeId = 1111110, timeEnded = NOW() where roundId = #roundId;
+        //        //ERROR CHECK select count(roundId) from round where roundActive = 'true'; MUST = 1 or we're boned
 
-                //Start new Round
-                //insert into round (timeStarted) values (Now());
+        //        //Get round
+        //        //var int roundId = ###SQL ---select count(roundId) from round where roundActive = 'true';
+        //        //Get Winner
 
-            }
-        }
+        //        //GetPotValue
+        //        //??
+        //        //GetpotJson
+        //        //??
+        //        //GetSkim
+        //        //??
+        //        var endTime = DateTime.Now;
+        //        IsCurrent = false;
+        //        var skim = "{item}";
+        //        // update round set skimItemsJson = '{skim}', winnerSteamId = #winnnerSteamId, winnerSteamTradeId = 1111110, timeEnded = NOW() where roundId = #roundId;
+
+        //        //Send Winner Winnings
+        //        //Get winnerSteaemTradeId
+
+
+        //        //insert into round (timeStarted) values (Now());
+
+        //    }
+        //}
+
+        #endregion
 
 		public int ItemsInRound {
 			get {
@@ -106,7 +110,6 @@ namespace SteamTrade.Lottery
             var total = 0.0;
             foreach (var item in items)
             {
-                //TODO: Get item value
                 var response = SteamWeb.Fetch(
                     string.Format(
                         "http://steamcommunity.com/market/priceoverview/?country=US&currency=3&appid={0}&market_hash_name={1}",

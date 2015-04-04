@@ -22,6 +22,8 @@ namespace SteamTrade.Inventories
         /// <param name='apiKey'>The needed Steam API key.</param>
         public static CsgoInventory FetchInventory(ulong steamId, string apiKey, SteamWeb steamWeb)
         {
+            //TODO: Add a while loop here to try to fetch multiple times because according the 
+            //original authors the steam API is not reliable.
             //var url = "http://api.steampowered.com/IEconItems_730/GetPlayerItems/v0001/?key=" + apiKey + "&steamid=" + steamId;
             var url = string.Format("http://steamcommunity.com/profiles/{0}/inventory/json/{1}/{2}", steamId, 730, 2);
             var response = steamWeb.Fetch(url, "GET", null, false);
