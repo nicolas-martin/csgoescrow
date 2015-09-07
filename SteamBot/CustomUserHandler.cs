@@ -16,6 +16,11 @@ namespace SteamBot
         public CsgoInventory OtherSteamInventory { get; set; }
         public string TradeId { get; set; }
 
+        public override void OnTradeAwaitingEmailConfirmation(long tradeOfferID)
+        {
+
+        }
+
 
         public CustomUserHandler(Bot bot, SteamID sid) : base(bot, sid) { }
 

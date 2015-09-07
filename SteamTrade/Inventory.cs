@@ -21,7 +21,7 @@ namespace SteamTrade
         /// <param name="steamWeb">The SteamWeb instance for this Bot</param>
         public static Inventory FetchInventory(ulong steamId, string apiKey, SteamWeb steamWeb)
         {
-            //HACK: Breaks if not IEconItems_440
+            int attempts = 1;
             InventoryResponse result = null;
             while ((result == null || result.result.items == null) && attempts <= 3)
             {
@@ -30,6 +30,7 @@ namespace SteamTrade
                 result = JsonConvert.DeserializeObject<InventoryResponse>(response);
                 attempts++;
             }
+            return new Inventory(result.result);
         }
 
         /// <summary>
